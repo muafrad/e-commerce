@@ -3,13 +3,7 @@ import './Cart.css'
 
 const Cart = (props) => {
     const cart = props.cart
-    // const total = cart.reduce( (total, product) => total + product.price ,0)
-    let total = 0;
-
-    for (let i = 0; i < cart.length; i++) {
-        const product = cart[i];
-        total = total + product.price
-    }
+    const total = cart.reduce((total, product) => total + product.price * product.quantity, 0)
 
     let shipping = 0;
     if (total > 50) {
@@ -21,9 +15,9 @@ const Cart = (props) => {
     else if (total > 0) {
         shipping = 12.99
     }
-    let tax = total /10
+    let tax = total / 10
 
-    const formatNumber = num =>{
+    const formatNumber = num => {
         const precision = num.toFixed(2);
         return Number(precision);
     }
@@ -32,12 +26,14 @@ const Cart = (props) => {
         <div>
             <h2>Order Summary</h2>
             <p>Items Ordered:{cart.length}</p>
-            <p><small>Items: ${formatNumber(total)} </small></p>
+            <p><small>product Price: ${formatNumber(total)} </small></p>
             <p><small>Shipping & Handling: ${shipping}</small></p>
             <p><small>Total Before Tax: ${formatNumber(total + shipping)}</small></p>
             <p><small>Estimated Tax: ${formatNumber(tax)}</small></p>
             <h3>Total Price: ${formatNumber(grandTotal)}</h3>
-            <button className="cart-btn">Review Your Order</button>
+            {
+                props.children
+            }
         </div>
     );
 };
